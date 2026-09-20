@@ -1,0 +1,289 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<style>
+  .aeromoney-wrapper {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .aeromoney-trigger {
+    display: inline-block;
+    background-color: #1E1E1E;
+    color: #fff;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid #1E1E1E;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .aeromoney-trigger:hover {
+    background-color: #fff;
+    color: #1E1E1E;
+    border-color: #fff;
+  }
+  #aeromoney-toggle { display: none; }
+  .aeromoney-menu {
+    display: none;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 25px;
+    margin: 15px auto 0 auto;
+    max-width: 620px;
+    width: calc(100% - 30px);
+    border-radius: 8px;
+    border: 2px solid #575757;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    text-align: left;
+  }
+  #aeromoney-toggle:checked ~ .aeromoney-menu { display: block; }
+  .menu-title {
+    font-size: 18px;
+    margin-bottom: 25px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: #888;
+  }
+  .crypto-radio { display: none; }
+  .crypto-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .crypto-item {
+    display: flex;
+    align-items: center;
+    background: #1E1E1E;
+    padding: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #575757;
+    transition: background 0.2s;
+    box-sizing: border-box;
+  }
+  .crypto-item:hover { background: #282828; }
+  .crypto-item img { width: 24px; height: 24px; margin-right: 15px; }
+  .crypto-name { font-weight: 600; font-size: 16px; }
+  .crypto-net { font-size: 12px; color: #666; margin-left: auto; }
+  .crypto-details {
+    display: none;
+    text-align: center;
+    padding: 20px 0 10px 0;
+  }
+  .qr-frame {
+    background: #fff;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 6px;
+    margin-bottom: 15px;
+  }
+  .qr-frame img { width: 300px; height: 300px; display: block; }
+  .address-container {
+    display: flex;
+    max-width: 100%;
+    margin: 0 auto;
+    border: 1px solid #333;
+    border-radius: 4px;
+    overflow: hidden;
+    justify-content: center;
+  }
+  .copy-btn {
+    background: #1E1E1E;
+    color: #fff;
+    border: 1px solid #575757;
+    border-radius: 4px;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+  .copy-btn:hover { background: #282828; border-color: #888; }
+  #btc-select:checked ~ .crypto-options .crypto-item:not(.btc-lbl),
+  #eth-select:checked ~ .crypto-options .crypto-item:not(.eth-lbl),
+  #ltc-select:checked ~ .crypto-options .crypto-item:not(.ltc-lbl),
+  #usdt-select:checked ~ .crypto-options .crypto-item:not(.usdt-lbl) {
+    display: none;
+  }
+  #btc-select:checked ~ .crypto-options .btc-lbl,
+  #eth-select:checked ~ .crypto-options .eth-lbl,
+  #ltc-select:checked ~ .crypto-options .ltc-lbl,
+  #usdt-select:checked ~ .crypto-options .usdt-lbl {
+    background: #000;
+    border-color: #444;
+    cursor: default;
+    pointer-events: none;
+  }
+  #btc-select:checked ~ .crypto-options .btc-det,
+  #eth-select:checked ~ .crypto-options .eth-det,
+  #ltc-select:checked ~ .crypto-options .ltc-det,
+  #usdt-select:checked ~ .crypto-options .usdt-det {
+    display: block;
+  }
+  .reset-menu {
+    display: none;
+    margin: 20px auto 0 auto;
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: underline;
+  }
+  #btc-select:checked ~ .reset-menu, #eth-select:checked ~ .reset-menu,
+  #ltc-select:checked ~ .reset-menu, #usdt-select:checked ~ .reset-menu {
+    display: block;
+  }
+</style>
+
+<div class="aeromoney-wrapper">
+
+  <label for="aeromoney-toggle" class="aeromoney-trigger">Aeromoney</label>
+  <input type="checkbox" id="aeromoney-toggle">
+
+  <div class="aeromoney-menu">
+    
+    <input type="radio" name="crypto_select" id="btc-select" class="crypto-radio">
+    <input type="radio" name="crypto_select" id="eth-select" class="crypto-radio">
+    <input type="radio" name="crypto_select" id="ltc-select" class="crypto-radio">
+    <input type="radio" name="crypto_select" id="usdt-select" class="crypto-radio">
+    <input type="radio" name="crypto_select" id="reset-select" class="crypto-radio" checked>
+
+    <div class="menu-title">Select your payment method</div>
+
+    <div class="crypto-options">
+
+      <label for="btc-select" class="crypto-item btc-lbl">
+        <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/btc.png" alt="BTC">
+        <span class="crypto-name">Bitcoin (BTC)</span>
+        <span class="crypto-net">Network: Bitcoin</span>
+      </label>
+      <div class="crypto-details btc-det">
+        <div class="qr-frame">
+          <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/btc-qr.png" alt="BTC QR">
+        </div>
+        <div class="address-container">
+          <button class="copy-btn" onclick="executeAeromoneyCopy('bc1qld2zv79zew5z678yzhdgy34zlu6x7g9xq66hk3', this)" title="Copy Address" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>
+<img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/talk-copy-icon.png" alt="Copy" style="width: 32px; height: 32px; display: block; object-fit: contain;">
+</span>
+<span>Copy Address</span>
+          </button>
+        </div>
+      </div>
+
+      <label for="eth-select" class="crypto-item eth-lbl">
+        <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/eth.png" alt="ETH">
+        <span class="crypto-name">Ethereum (ETH)</span>
+        <span class="crypto-net">Network: ERC-20</span>
+      </label>
+      <div class="crypto-details eth-det">
+        <div class="qr-frame">
+          <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/eth-qr.png" alt="ETH QR">
+        </div>
+        <div class="address-container">
+          <button class="copy-btn" onclick="executeAeromoneyCopy('0xD058fdEfB43b59bD85E15284b5a42F8037A5375A', this)" title="Copy Address" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>
+<img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/talk-copy-icon.png" alt="Copy" style="width: 32px; height: 32px; display: block; object-fit: contain;">
+</span>
+<span>Copy Address</span>
+          </button>
+        </div>
+      </div>
+
+      <label for="ltc-select" class="crypto-item ltc-lbl">
+        <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/ltc.png" alt="LTC">
+        <span class="crypto-name">Litecoin (LTC)</span>
+        <span class="crypto-net">Network: Litecoin</span>
+      </label>
+      <div class="crypto-details ltc-det">
+        <div class="qr-frame">
+          <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/ltc-qr.png" alt="LTC QR">
+        </div>
+        <div class="address-container">
+          <button class="copy-btn" onclick="executeAeromoneyCopy('ltc1qt9jk42dfrdp42vk6xwls5eguasfe24j2u5n6ds', this)" title="Copy Address" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>
+<img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/talk-copy-icon.png" alt="Copy" style="width: 32px; height: 32px; display: block; object-fit: contain;">
+</span>
+<span>Copy Address</span>
+          </button>
+        </div>
+      </div>
+
+      <label for="usdt-select" class="crypto-item usdt-lbl">
+        <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/usdt.png" alt="USDT">
+        <span class="crypto-name">Tether (USDT)</span>
+        <span class="crypto-net">Network: ERC-20 ⚠️</span>
+      </label>
+      <div class="crypto-details usdt-det">
+        <div class="qr-frame">
+          <img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/usdt-qr.png" alt="USDT QR">
+        </div>
+        <div class="address-container">
+          <button class="copy-btn" onclick="executeAeromoneyCopy('0xA70Ddf90B97Dcc9CeA91dce4deD4b5Ad22b71F13', this)" title="Copy Address" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+<span>
+<img src="https://talkter.wordpress.com/wp-content/uploads/2026/09/talk-copy-icon.png" alt="Copy" style="width: 32px; height: 32px; display: block; object-fit: contain;">
+</span>
+<span>Copy Address</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <label for="reset-select" class="reset-menu">← Select a different currency</label>
+  </div>
+
+</div>
+
+<script>
+function executeAeromoneyCopy(addressText, buttonEl) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(addressText).then(triggerSuccess).catch(runFallback);
+    } else {
+        runFallback();
+    }
+    function runFallback() {
+        var dummyTextArea = document.createElement("textarea");
+        dummyTextArea.value = addressText;
+        dummyTextArea.style.position = "fixed"; 
+        dummyTextArea.style.top = "0";
+        dummyTextArea.style.left = "0";
+        dummyTextArea.style.opacity = "0";
+        document.body.appendChild(dummyTextArea);
+        dummyTextArea.focus();
+        dummyTextArea.select();
+        try {
+            document.execCommand('copy');
+            triggerSuccess();
+        } catch (err) {
+            console.error(err);
+        }
+        document.body.removeChild(dummyTextArea);
+    }
+    function triggerSuccess() {
+        const iconSpan = buttonEl.querySelector('span:first-child');
+        const textSpan = buttonEl.querySelector('span:last-child');
+        const oldIcon = iconSpan.innerText;
+        const oldText = textSpan.innerText;
+        iconSpan.innerText = '✓';
+        textSpan.innerText = 'Copied!';
+        buttonEl.style.borderColor = '#27ae60';
+        buttonEl.style.color = '#27ae60';
+        setTimeout(function() {
+            iconSpan.innerText = oldIcon;
+            textSpan.innerText = oldText;
+            buttonEl.style.borderColor = '#575757';
+            buttonEl.style.color = '#fff';
+        }, 1500);
+    }
+}
+</script>
